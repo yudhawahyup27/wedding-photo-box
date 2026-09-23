@@ -94,11 +94,10 @@ export function useWeddingConfig() {
     };
   }, []);
 
-  const eventName = eventSlug ? formatEventSlug(eventSlug) : null;
   return {
-    config: eventName
-      ? { ...config, coupleNames: eventName, welcomeTitle: eventName }
-      : config,
+    config,
+    eventSlug,
+    eventGuestName: eventSlug ? formatEventSlug(eventSlug) : null,
     loading,
   };
 }

@@ -11,7 +11,7 @@ type Tab = 'search' | 'manual';
 
 export default function GuestIdentificationPage() {
   const router = useRouter();
-  const { config } = useWeddingConfig();
+  const { config, eventGuestName } = useWeddingConfig();
   const setGuest = useBoothStore((s) => s.setGuest);
 
   const [tab, setTab] = useState<Tab>('search');
@@ -24,6 +24,13 @@ export default function GuestIdentificationPage() {
   useEffect(() => {
     if (!config.allowRsvpSearch) setTab('manual');
   }, [config.allowRsvpSearch]);
+
+  useEffect(() => {
+    if (eventGuestName) {
+      setTab('manual');
+      setManualName(eventGuestName);
+    }
+  }, [eventGuestName]);
 
   useEffect(() => {
     if (debounceRef.current) clearTimeout(debounceRef.current);
