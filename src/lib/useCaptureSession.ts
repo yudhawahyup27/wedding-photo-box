@@ -44,7 +44,15 @@ export function useCaptureSession({ frameCount, countdown, muted, onCapture, onC
             setPhase('flash');
             if (!muted) playShutter();
             const photo = capture();
-            if (photo) onCapture(photo);
+            // Mobile browsers can report camera permission as ready before
+            // video metadata is usable. Do not advance to preview without a
+            // real captured image.
+            if (!photo) {
+              clearTimers();
+              setPhase('idle');
+              return;
+            }
+            onCapture(photo);
             timeoutRef.current = setTimeout(() => {
               if (index + 1 < frameCount) {
                 setPoseIndex(index + 1);

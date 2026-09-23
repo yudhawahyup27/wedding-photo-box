@@ -44,6 +44,7 @@ export default function BoothCapturePage() {
   const recorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
   const [recording, setRecording] = useState(false);
+  const [videoReady, setVideoReady] = useState(false);
   const [recordSeconds, setRecordSeconds] = useState(0);
   const recordSecondsRef = useRef(0);
   const recordTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -158,6 +159,7 @@ export default function BoothCapturePage() {
             autoPlay
             playsInline
             muted
+            onLoadedMetadata={() => setVideoReady(true)}
             className="h-full w-full object-cover"
             style={{ transform: 'scaleX(-1)' }}
           />
@@ -411,7 +413,7 @@ export default function BoothCapturePage() {
                 if (!isRetake && !continueCapture && shots.length === 0) clearShots();
                 start();
               }}
-              disabled={status !== 'ready' || isCapturing}
+              disabled={status !== 'ready' || !videoReady || isCapturing}
               className="group relative flex h-20 w-20 items-center justify-center rounded-full transition-transform active:scale-95 disabled:pointer-events-none disabled:opacity-40"
             >
               {/* Outer Golden Glowing Ring */}
@@ -434,7 +436,7 @@ export default function BoothCapturePage() {
           ) : (
             <button
               onClick={startRecording}
-              disabled={status !== 'ready'}
+              disabled={status !== 'ready' || !videoReady}
               className="group relative flex h-20 w-20 items-center justify-center rounded-full transition-transform active:scale-95 disabled:pointer-events-none disabled:opacity-40"
             >
               <div className="absolute inset-0 rounded-full border-2 border-red-400/80 shadow-[0_0_25px_rgba(239,68,68,0.4)]" />
