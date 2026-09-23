@@ -58,6 +58,16 @@ export function useCamera(initialFacing: 'user' | 'environment' = 'user') {
   }, [facingMode]);
 
   useEffect(() => {
+    // The video element is rendered only after status becomes `ready`.
+    // Bind the stream again after that render so the live preview is not blank.
+    if (status !== 'ready' || !videoRef.current || !streamRef.current) return;
+    if (videoRef.current.srcObject !== streamRef.current) {
+      videoRef.current.srcObject = streamRef.current;
+    }
+    videoRef.current.play().catch(() => {});
+  }, [status]);
+
+  useEffect(() => {
     return () => stop();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
