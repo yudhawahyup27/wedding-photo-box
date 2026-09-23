@@ -1,0 +1,13 @@
+{
+  "name": "Yudha & Ima — Photo Booth",
+  "short_name": "Y & I Booth",
+  "description": "Photo booth pernikahan Yudha & Ima. Abadikan momenmu bersama kami.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#fbf7ef",
+  "theme_color": "#fbf7ef",
+  "icons": [
+    { "src": "/icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

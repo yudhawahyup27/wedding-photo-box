@@ -1,0 +1,446 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&family=Cormorant:ital,wght@1,500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* ---------- Wedding design tokens (Yudha & Ima) ---------- */
+  --ivory: #fbf7ef;
+  --cream: #f3ead6;
+  --parchment: #efe3c8;
+  --blush: #e7d2ce;
+  --ink: #2b2620;
+  --ink-soft: #4a423a;
+  --bronze: #8a6e4b;
+  --gold: #b99a5b;
+  --rose: #b08281;
+  --sage: #7c8567;
+  --charcoal: #211e1b;
+  --charcoal-text: #efe6d4;
+  --line: rgba(43, 38, 32, 0.12);
+
+  --font-display: 'Cormorant Garamond', 'Playfair Display', serif;
+  --font-script: 'Cormorant', 'Cormorant Garamond', serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background: var(--ivory);
+  color: var(--ink);
+  min-height: 100%;
+}
+
+body {
+  font-family: var(--font-body), system-ui, sans-serif;
+}
+
+::selection {
+  background: var(--gold);
+  color: var(--ivory);
+}
+
+h1, h2, h3, .font-display {
+  font-family: var(--font-display), serif;
+}
+
+.font-script {
+  font-family: var(--font-script), serif;
+  font-style: italic;
+}
+
+/* ---------- Signature element: interlocking monogram mark ---------- */
+.monogram-mark {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display), serif;
+  color: var(--bronze);
+  letter-spacing: 0.05em;
+}
+.monogram-mark::before,
+.monogram-mark::after {
+  content: '';
+  display: inline-block;
+  height: 1px;
+  width: 28px;
+  background: currentColor;
+  opacity: 0.55;
+  margin: 0 14px;
+}
+
+/* ---------- Gentle entrance / transitions (kept subtle, not distracting) ---------- */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.fade-up {
+  animation: fade-up 700ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.fade-up-delay-1 { animation-delay: 120ms; }
+.fade-up-delay-2 { animation-delay: 240ms; }
+.fade-up-delay-3 { animation-delay: 360ms; }
+
+@keyframes petal-drift {
+  0% { transform: translateY(-10%) translateX(0) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.55; }
+  90% { opacity: 0.4; }
+  100% { transform: translateY(110%) translateX(24px) rotate(140deg); opacity: 0; }
+}
+.petal {
+  position: absolute;
+  pointer-events: none;
+  animation: petal-drift linear infinite;
+}
+
+@keyframes flash-pop {
+  0% { opacity: 0; }
+  12% { opacity: 1; }
+  100% { opacity: 0; }
+}
+.flash-pop {
+  animation: flash-pop 380ms ease-out forwards;
+}
+
+@keyframes count-pop {
+  0% { transform: scale(0.5); opacity: 0; }
+  40% { transform: scale(1.08); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.count-pop {
+  animation: count-pop 320ms cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+
+/* ---------- Touch-friendly primary/secondary buttons ---------- */
+.btn-primary {
+  font-family: var(--font-body), sans-serif;
+  background: var(--ink);
+  color: var(--ivory);
+  border-radius: 999px;
+  padding: 1.1rem 2.4rem;
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+  font-weight: 500;
+  transition: transform 160ms ease, background 160ms ease;
+  min-height: 56px;
+}
+.btn-primary:active {
+  transform: scale(0.98);
+}
+.btn-primary:hover {
+  background: var(--bronze);
+}
+.btn-secondary {
+  font-family: var(--font-body), sans-serif;
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 1rem 2.2rem;
+  font-size: 0.95rem;
+  min-height: 56px;
+  transition: border-color 160ms ease, background 160ms ease;
+}
+.btn-secondary:hover {
+  border-color: var(--bronze);
+  background: rgba(138, 110, 75, 0.06);
+}
+.btn-primary:disabled,
+.btn-secondary:disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.card-elevated {
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 1px 2px rgba(43, 38, 32, 0.04), 0 12px 32px -12px rgba(43, 38, 32, 0.16);
+}
+
+/* ---------- Modern Luxury Photo Booth Welcome Landing Page ---------- */
+.welcome-home {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: clamp(1rem, 3vw, 2.5rem);
+  background: radial-gradient(circle at 50% 20%, #fbf7ee 0%, #f3ead6 60%, #e5d8bf 100%);
+  position: relative;
+}
+
+.welcome-content {
+  width: min(100%, 1120px);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  position: relative;
+  z-index: 10;
+}
+
+.welcome-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.65rem 1.4rem;
+  background: rgba(255, 253, 249, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(194, 159, 92, 0.3);
+  border-radius: 999px;
+  box-shadow: 0 4px 20px rgba(36, 32, 28, 0.05);
+}
+
+.welcome-hero-card {
+  position: relative;
+  background: rgba(255, 253, 249, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(194, 159, 92, 0.35);
+  border-radius: 28px;
+  padding: clamp(1.8rem, 4vw, 3.2rem) clamp(1.2rem, 3vw, 2.5rem);
+  box-shadow: 0 20px 50px -15px rgba(36, 32, 28, 0.12), 0 0 0 1px rgba(255, 255, 255, 0.6);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.welcome-crest {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(194, 159, 92, 0.15) 0%, rgba(138, 110, 75, 0.25) 100%);
+  border: 1.5px solid rgba(194, 159, 92, 0.5);
+  color: var(--bronze);
+  font-family: var(--font-display), serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  box-shadow: 0 8px 20px rgba(138, 110, 75, 0.15);
+  margin-bottom: 1rem;
+}
+
+.welcome-couple-title {
+  font-family: var(--font-display), serif;
+  font-size: clamp(2.4rem, 6vw, 4.5rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  margin-top: 0.25rem;
+}
+
+.welcome-tagline {
+  font-family: var(--font-body), sans-serif;
+  font-size: clamp(0.9rem, 1.4vw, 1.15rem);
+  color: var(--ink-soft);
+  max-width: 600px;
+  margin-top: 0.75rem;
+  line-height: 1.5;
+}
+
+/* 3 Visual Showcase Cards */
+.welcome-showcase-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  width: 100%;
+  margin-top: 1.8rem;
+}
+
+.welcome-showcase-card {
+  background: rgba(248, 244, 234, 0.75);
+  border: 1px solid rgba(194, 159, 92, 0.22);
+  border-radius: 20px;
+  padding: 1.25rem 1rem;
+  text-align: left;
+  transition: all 250ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.welcome-showcase-card:hover {
+  transform: translateY(-4px);
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(194, 159, 92, 0.5);
+  box-shadow: 0 12px 30px rgba(36, 32, 28, 0.08);
+}
+
+/* Grand CTA Button */
+.welcome-primary-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+  width: min(100%, 480px);
+  min-height: 68px;
+  margin-top: 2rem;
+  padding: 1.1rem 2.2rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #24201c 0%, #3a322b 100%);
+  color: #fffdf9;
+  border: 2px solid rgba(194, 159, 92, 0.7);
+  box-shadow: 0 16px 36px rgba(36, 32, 28, 0.35), 0 0 25px rgba(194, 159, 92, 0.3);
+  font-family: var(--font-body), sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: all 250ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  animation: primary-glow 3s infinite ease-in-out;
+}
+
+.welcome-primary-cta:hover {
+  transform: translateY(-4px) scale(1.02);
+  background: linear-gradient(135deg, #8a6e4b 0%, #c29f5c 100%);
+  border-color: #ffffff;
+  box-shadow: 0 20px 45px rgba(138, 110, 75, 0.5);
+}
+
+.welcome-primary-cta:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Secondary Actions */
+.welcome-secondary-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.welcome-sub-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.3rem;
+  border-radius: 999px;
+  border: 1px solid rgba(43, 38, 32, 0.2);
+  background: rgba(255, 253, 249, 0.8);
+  color: var(--ink);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  transition: all 180ms ease;
+}
+
+.welcome-sub-action:hover {
+  background: var(--ink);
+  color: var(--ivory);
+  border-color: var(--ink);
+  transform: translateY(-2px);
+}
+
+/* Steps / How It Works Strip */
+.welcome-steps-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 0.9rem 1.5rem;
+  background: rgba(255, 253, 249, 0.85);
+  border: 1px solid rgba(194, 159, 92, 0.25);
+  border-radius: 999px;
+  box-shadow: 0 4px 16px rgba(36, 32, 28, 0.04);
+}
+
+.welcome-step-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+.welcome-step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(138, 110, 75, 0.15);
+  color: var(--bronze);
+  font-weight: 700;
+  font-size: 0.72rem;
+}
+
+@media (max-width: 768px) {
+  .welcome-home {
+    padding: 0.8rem;
+    justify-content: flex-start;
+  }
+
+  .welcome-showcase-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .welcome-hero-card {
+    border-radius: 20px;
+    padding: 1.5rem 1rem;
+  }
+
+  .welcome-primary-cta {
+    width: 100%;
+    min-height: 60px;
+    font-size: 0.95rem;
+  }
+
+  .welcome-topbar,
+  .welcome-steps-strip {
+    border-radius: 18px;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+}
+
+/* Hide scrollbars on horizontal chip rows without losing scroll */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ---------- Print layout ---------- */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #print-area,
+  #print-area * {
+    visibility: visible;
+  }
+  #print-area {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    padding: 0;
+  }
+}
