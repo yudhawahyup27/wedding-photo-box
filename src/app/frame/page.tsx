@@ -105,6 +105,7 @@ export default function FrameSelectPage() {
 
   function chooseFrame(f: FrameConfig) {
     const needsMorePhotos = existingPhotoCount > 0 && existingPhotoCount < f.photoCount;
+    sessionStorage.setItem('snapbooth-frame-slug', f.slug);
     setFrame(f);
     setContinueCapture(needsMorePhotos);
     // When editing an existing result, keep the captured media and only

@@ -127,7 +127,8 @@ export default function BoothCapturePage() {
   useEffect(() => {
     if (frame) return;
     let cancelled = false;
-    getFrameBySlug(config.defaultFrameSlug).then((defaultFrame) => {
+    const savedSlug = sessionStorage.getItem('snapbooth-frame-slug');
+    getFrameBySlug(savedSlug || config.defaultFrameSlug).then((defaultFrame) => {
       if (cancelled) return;
       if (defaultFrame) setFrame(defaultFrame);
       else router.replace('/frame');

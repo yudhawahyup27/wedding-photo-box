@@ -6,6 +6,7 @@ import Monogram from '@/components/Monogram';
 import { useBoothStore } from '@/lib/booth/store';
 import { useWeddingConfig } from '@/lib/wedding/useWeddingConfig';
 import { loadImage, renderFrame, canvasToBlob, makeThumbnail } from '@/lib/frames/render';
+import { getFrameBySlug } from '@/lib/frames/repository';
 import { saveSessionWithOfflineFallback } from '@/lib/session/save';
 import { PHOTO_FILTERS, getFilterById } from '@/lib/filters/presets';
 import type { FrameConfig } from '@/lib/frames/types';
@@ -17,6 +18,7 @@ export default function PreviewPage() {
   const guest = useBoothStore((s) => s.guest);
   const mode = useBoothStore((s) => s.mode);
   const frame = useBoothStore((s) => s.frame);
+  const setFrame = useBoothStore((s) => s.setFrame);
   const shots = useBoothStore((s) => s.shots);
   const mediaItems = useBoothStore((s) => s.mediaItems);
   const finalDataUrl = useBoothStore((s) => s.finalDataUrl);
@@ -71,8 +73,16 @@ export default function PreviewPage() {
 
   useEffect(() => {
     if (!frame) {
-      router.replace('/frame');
-      return;
+      let cancelled = false;
+      const savedSlug = sessionStorage.getItem('snapbooth-frame-slug');
+      getFrameBySlug(savedSlug || config.defaultFrameSlug).then((savedFrame) => {
+        if (cancelled) return;
+        if (savedFrame) setFrame(savedFrame);
+        else router.replace('/frame');
+      });
+      return () => {
+        cancelled = true;
+      };
     }
     if (shots.length < frame.photoCount) {
       router.replace('/booth');
@@ -87,7 +97,7 @@ export default function PreviewPage() {
       cancelled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [frame, shots.length]);
+  }, [config.defaultFrameSlug, frame, router, setFrame, shots.length]);
 
   useEffect(() => {
     if (!frame || !loadedMedia) return;
