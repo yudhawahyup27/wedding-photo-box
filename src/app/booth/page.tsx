@@ -6,6 +6,7 @@ import { useCamera } from '@/lib/useCamera';
 import { useCaptureSession } from '@/lib/useCaptureSession';
 import { useBoothStore } from '@/lib/booth/store';
 import { useWeddingConfig } from '@/lib/wedding/useWeddingConfig';
+import { getFrameBySlug } from '@/lib/frames/repository';
 import {
   Camera,
   ChevronLeft,
@@ -23,6 +24,7 @@ export default function BoothCapturePage() {
   const router = useRouter();
   const { config } = useWeddingConfig();
   const frame = useBoothStore((s) => s.frame);
+  const setFrame = useBoothStore((s) => s.setFrame);
   const shots = useBoothStore((s) => s.shots);
   const captureType = useBoothStore((s) => s.captureType);
   const addShot = useBoothStore((s) => s.addShot);
@@ -122,8 +124,17 @@ export default function BoothCapturePage() {
   }
 
   useEffect(() => {
-    if (!frame) router.replace('/frame');
-  }, [frame, router]);
+    if (frame) return;
+    let cancelled = false;
+    getFrameBySlug(config.defaultFrameSlug).then((defaultFrame) => {
+      if (cancelled) return;
+      if (defaultFrame) setFrame(defaultFrame);
+      else router.replace('/frame');
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [config.defaultFrameSlug, frame, router, setFrame]);
 
   const safeAreaRatio = useMemo(() => {
     if (!frame) return 4 / 5;
