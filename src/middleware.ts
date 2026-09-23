@@ -28,7 +28,24 @@ export async function middleware(request: NextRequest) {
 
   const segments = pathname.split('/').filter(Boolean);
   const slug = segments[0];
-  const reserved = new Set(['_next', 'favicon.ico', 'manifest.json', 'sw.js', 'icons']);
+  const reserved = new Set([
+    '_next',
+    'favicon.ico',
+    'manifest.json',
+    'sw.js',
+    'icons',
+    'api',
+    'booth',
+    'complete',
+    'frame',
+    'gallery',
+    'guest',
+    'live-gallery',
+    'mode',
+    'photo',
+    'preview',
+    'print',
+  ]);
   if (segments.length === 1 && slug && !reserved.has(slug) && !slug.includes('.')) {
     return NextResponse.rewrite(new URL('/', request.url));
   }
