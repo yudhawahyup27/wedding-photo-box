@@ -240,7 +240,7 @@ export default function BoothCapturePage() {
           {/* Frame Title Badge */}
           <div className="hidden sm:flex items-center gap-1.5 rounded-full border border-amber-500/30 bg-black/50 px-4 py-1.5 text-xs font-semibold text-amber-200 backdrop-blur-md">
             <Sparkles className="h-3.5 w-3.5 text-amber-400" />
-            <span>{frame.title}</span>
+            <span>{frame.name}</span>
             <span className="text-white/40">•</span>
             <span className="text-white/80">{frameCount} Foto</span>
           </div>

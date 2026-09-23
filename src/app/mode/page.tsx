@@ -18,9 +18,9 @@ import {
   ArrowRight,
   ChevronLeft,
   Crown,
-  Flame,
   Layers,
-  Heart
+  Heart,
+  type LucideIcon,
 } from 'lucide-react';
 
 export default function ModeSelectPage() {
@@ -34,7 +34,7 @@ export default function ModeSelectPage() {
 const MODE_METADATA: Record<
   PhotoMode,
   {
-    icon: any;
+    icon: LucideIcon;
     badge?: string;
     badgeColor?: string;
     tagline: string;

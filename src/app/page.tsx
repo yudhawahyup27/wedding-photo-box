@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { Camera, Images, Radio, Sparkles, Settings, Copy, Check, Calendar, Newspaper, BookOpen, Film, Heart, QrCode, Printer } from 'lucide-react';
+import { Camera, Images, Radio, Sparkles, Settings, Copy, Check, Calendar, Newspaper, BookOpen, Film, Heart } from 'lucide-react';
 import { useBoothStore } from '@/lib/booth/store';
 import { useWeddingConfig } from '@/lib/wedding/useWeddingConfig';
 import PetalField from '@/components/PetalField';
@@ -216,5 +216,4 @@ export default function WelcomePage() {
     </main>
   );
 }
-
 

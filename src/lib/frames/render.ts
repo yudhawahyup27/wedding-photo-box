@@ -58,7 +58,7 @@ function hexToRgba(hex: string, alpha: number) {
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
 
-function paintFrameBackdrop(ctx: CanvasRenderingContext2D, W: number, H: number, base: string, accent: string) {
+function paintFrameBackdrop(ctx: CanvasRenderingContext2D, W: number, H: number, base: string) {
   // Paint solid base color cleanly
   ctx.fillStyle = base;
   ctx.fillRect(0, 0, W, H);
@@ -119,7 +119,7 @@ export async function renderFrame({ frame, photos, wedding, scale = 2, mirror = 
   }
 
   // Background
-  paintFrameBackdrop(ctx, W, H, frame.backgroundColor, frame.accentColor);
+  paintFrameBackdrop(ctx, W, H, frame.backgroundColor);
   ctx.imageSmoothingEnabled = true;
   ctx.imageSmoothingQuality = 'high';
 
