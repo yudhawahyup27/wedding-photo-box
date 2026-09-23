@@ -1,9 +1,11 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 import { DEFAULT_WEDDING_CONFIG, WeddingConfig } from './config';
 import { isPhotoMode, normalizePhotoMode } from '@/lib/frames/modes';
+import { formatEventSlug, getEventSlugFromPath } from './eventSlug';
 
 interface BoothSettingsRow {
   couple_names: string;
@@ -61,8 +63,16 @@ function rowToConfig(row: BoothSettingsRow): WeddingConfig {
 }
 
 export function useWeddingConfig() {
+  const pathname = usePathname();
   const [config, setConfig] = useState<WeddingConfig>(DEFAULT_WEDDING_CONFIG);
   const [loading, setLoading] = useState(true);
+  const [eventSlug, setEventSlug] = useState<string | null>(null);
+
+  useEffect(() => {
+    const pathSlug = getEventSlugFromPath(window.location.pathname);
+    if (pathSlug) sessionStorage.setItem('snapbooth-event-slug', pathSlug);
+    setEventSlug(pathSlug || sessionStorage.getItem('snapbooth-event-slug'));
+  }, [pathname]);
 
   useEffect(() => {
     let cancelled = false;
@@ -84,5 +94,11 @@ export function useWeddingConfig() {
     };
   }, []);
 
-  return { config, loading };
+  const eventName = eventSlug ? formatEventSlug(eventSlug) : null;
+  return {
+    config: eventName
+      ? { ...config, coupleNames: eventName, welcomeTitle: eventName }
+      : config,
+    loading,
+  };
 }

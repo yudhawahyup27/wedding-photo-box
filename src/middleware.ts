@@ -7,24 +7,35 @@ export async function middleware(request: NextRequest) {
   const isLoginPage = pathname === '/admin/login';
   const isLoginApi = pathname === '/api/admin/login';
 
-  if (isLoginPage || isLoginApi) {
+  if (pathname.startsWith('/admin') || pathname.startsWith('/api/admin')) {
+    if (isLoginPage || isLoginApi) {
+      return NextResponse.next();
+    }
+
+    const token = request.cookies.get(COOKIE_NAME)?.value;
+    const valid = await verifyAdminSessionToken(token);
+
+    if (!valid) {
+      if (pathname.startsWith('/api/admin')) {
+        return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
+      }
+      const loginUrl = new URL('/admin/login', request.url);
+      return NextResponse.redirect(loginUrl);
+    }
+
     return NextResponse.next();
   }
 
-  const token = request.cookies.get(COOKIE_NAME)?.value;
-  const valid = await verifyAdminSessionToken(token);
-
-  if (!valid) {
-    if (pathname.startsWith('/api/admin')) {
-      return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
-    }
-    const loginUrl = new URL('/admin/login', request.url);
-    return NextResponse.redirect(loginUrl);
+  const segments = pathname.split('/').filter(Boolean);
+  const slug = segments[0];
+  const reserved = new Set(['_next', 'favicon.ico', 'manifest.json', 'sw.js', 'icons']);
+  if (segments.length === 1 && slug && !reserved.has(slug) && !slug.includes('.')) {
+    return NextResponse.rewrite(new URL('/', request.url));
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/admin/:path*', '/api/admin/:path*'],
+  matcher: ['/:path*'],
 };
