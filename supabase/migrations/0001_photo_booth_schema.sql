@@ -135,7 +135,7 @@ create table if not exists public.booth_settings (
   id boolean primary key default true check (id = true), -- enforces a single row
   couple_names text not null default 'Yudha & Ima',
   monogram text not null default 'Y & I',
-  wedding_date date not null default '2026-11-14',
+  wedding_date date not null default '2026-11-29',
   hashtag text not null default '#YudhaIma',
   album_url text not null default '/gallery',
   welcome_title text not null default 'Yudha & Ima',

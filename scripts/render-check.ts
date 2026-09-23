@@ -7,7 +7,7 @@ import { drawDecoration } from '../src/lib/frames/decorations';
 const wedding = {
   coupleNames: 'Yudha & Ima',
   monogram: 'Y & I',
-  weddingDate: '2026-11-14',
+  weddingDate: '2026-11-29',
   hashtag: '#YudhaIma',
 };
 

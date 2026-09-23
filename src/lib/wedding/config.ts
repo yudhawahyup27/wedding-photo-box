@@ -11,7 +11,7 @@ import { PHOTO_MODES } from '@/lib/frames/modes';
 export interface WeddingConfig {
   coupleNames: string;
   monogram: string;
-  weddingDate: string; // ISO date, e.g. "2026-11-14"
+  weddingDate: string; // ISO date, e.g. "2026-11-29"
   hashtag: string;
   albumUrl: string;
   welcomeTitle: string;
@@ -36,7 +36,7 @@ export interface WeddingConfig {
 export const DEFAULT_WEDDING_CONFIG: WeddingConfig = {
   coupleNames: 'Yudha & Ima',
   monogram: 'Y & I',
-  weddingDate: '2026-11-14',
+  weddingDate: '2026-11-29',
   hashtag: '#YudhaIma',
   albumUrl: '/gallery',
   welcomeTitle: 'Yudha & Ima',
